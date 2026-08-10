@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================================
+   Base
+   ============================================================= */
+@layer base {
+  html,
+  body {
+    @apply m-0 p-0 bg-ink text-cream font-body antialiased;
+  }
+  img {
+    @apply max-w-full block;
+  }
+  button {
+    font-family: inherit;
+    @apply cursor-pointer;
+  }
+  a {
+    @apply text-inherit;
+  }
+}
+
+/* =============================================================
+   Effets non exprimables avec des utilitaires Tailwind seuls
+   (dégradés multi-couches, fonds superposés, particules).
+   Regroupés ici via @layer components pour rester dans
+   l'esprit "utility-first" partout ailleurs.
+   ============================================================= */
+@layer components {
+  /* Fond de scène : voile + vignette + image de fond fixe */
+  .bg-stage {
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(232, 196, 104, 0.1), transparent 60%),
+      radial-gradient(ellipse 70% 60% at 15% 30%, rgba(255, 255, 255, 0.05), transparent 55%),
+      radial-gradient(ellipse 70% 60% at 85% 70%, rgba(255, 255, 255, 0.04), transparent 55%),
+      linear-gradient(180deg, rgba(27, 23, 18, 0.38) 0%, rgba(14, 12, 9, 0.42) 40%, rgba(11, 10, 8, 0.45) 100%),
+      url("./assets/background-main.jpg") center / cover no-repeat fixed;
+  }
+  .bg-stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.02) 0px,
+      rgba(255, 255, 255, 0.02) 2px,
+      transparent 2px,
+      transparent 60px
+    );
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Nuage de petits points dorés / blancs, purement décoratif */
+  .bg-dots {
+    background-image:
+      radial-gradient(2px 2px at 10% 12%, theme("colors.gold-strong") 0%, transparent 60%),
+      radial-gradient(1.5px 1.5px at 85% 8%, #fff 0%, transparent 60%),
+      radial-gradient(1.5px 1.5px at 25% 30%, #fff 0%, transparent 60%),
+      radial-gradient(2px 2px at 92% 40%, theme("colors.gold-strong") 0%, transparent 60%),
+      radial-gradient(1.5px 1.5px at 6% 55%, #fff 0%, transparent 60%),
+      radial-gradient(2px 2px at 70% 65%, theme("colors.gold-strong") 0%, transparent 60%),
+      radial-gradient(1.5px 1.5px at 40% 85%, #fff 0%, transparent 60%),
+      radial-gradient(1.5px 1.5px at 95% 92%, #fff 0%, transparent 60%);
+    opacity: 0.7;
+  }
+
+  /* Cadre à coins dorés fins (utilisé par .frame et .home-card) */
+  .corner-frame {
+    --frame-line: rgba(217, 179, 82, 0.24);
+    --corner-len: 42px;
+    --corner-pos: 10px;
+    background-image: linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line));
+    background-position: var(--corner-pos) var(--corner-pos), var(--corner-pos) var(--corner-pos),
+      calc(100% - var(--corner-pos)) var(--corner-pos), calc(100% - var(--corner-pos)) var(--corner-pos),
+      var(--corner-pos) calc(100% - var(--corner-pos)), var(--corner-pos) calc(100% - var(--corner-pos)),
+      calc(100% - var(--corner-pos)) calc(100% - var(--corner-pos)),
+      calc(100% - var(--corner-pos)) calc(100% - var(--corner-pos));
+    background-size: var(--corner-len) 1px, 1px var(--corner-len), var(--corner-len) 1px, 1px var(--corner-len),
+      var(--corner-len) 1px, 1px var(--corner-len), var(--corner-len) 1px, 1px var(--corner-len);
+    background-repeat: no-repeat;
+  }
+
+  /* Version plus fine, utilisée sur la photo hero */
+  .corner-frame-tight {
+    --frame-line: rgba(232, 196, 104, 0.5);
+    --corner-len: 34px;
+    --corner-pos: 12px;
+    background-image: linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line)),
+      linear-gradient(var(--frame-line), var(--frame-line));
+    background-position: var(--corner-pos) var(--corner-pos), var(--corner-pos) var(--corner-pos),
+      calc(100% - var(--corner-pos)) var(--corner-pos), calc(100% - var(--corner-pos)) var(--corner-pos),
+      var(--corner-pos) calc(100% - var(--corner-pos)), var(--corner-pos) calc(100% - var(--corner-pos)),
+      calc(100% - var(--corner-pos)) calc(100% - var(--corner-pos)),
+      calc(100% - var(--corner-pos)) calc(100% - var(--corner-pos));
+    background-size: var(--corner-len) 1px, 1px var(--corner-len), var(--corner-len) 1px, 1px var(--corner-len),
+      var(--corner-len) 1px, 1px var(--corner-len), var(--corner-len) 1px, 1px var(--corner-len);
+    background-repeat: no-repeat;
+  }
+
+  /* Overlay dégradé bas de la photo hero, pour la lisibilité du texte */
+  .hero-overlay-gradient {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.15) 78%, rgba(0, 0, 0, 0.3) 100%);
+  }
+
+  /* Particules qui tombent doucement (fond des pages) */
+  .particle {
+    position: absolute;
+    top: -12px;
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+  .particle[data-star] {
+    border-radius: 0;
+    width: 7px;
+    height: 7px;
+    background: transparent !important;
+    box-shadow: none !important;
+    clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+    background: rgba(232, 196, 104, 0.9) !important;
+  }
+
+  /* Reflet lumineux qui traverse le bouton doré principal de temps en temps */
+  .shine-sweep::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.55) 50%, transparent 100%);
+    transform: skewX(-20deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
