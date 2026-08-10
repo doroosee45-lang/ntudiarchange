@@ -14,7 +14,7 @@ async function seed() {
     brideName: "Gladys",
     groomFullName: "Archange NTUDI",
     brideFullName: "Gladys BAMOPALABI",
-    coupleLabel: "COUPLE ARCHANGE",
+    coupleLabel: " le de la personne ou couple a inivté ",
     eventTitle: "Vous êtes invité",
     eventType: "Soirée dansante",
     weddingDate: new Date("2026-08-23T20:00:00"),

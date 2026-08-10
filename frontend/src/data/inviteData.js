@@ -6,9 +6,9 @@ export const SLUG = import.meta.env.VITE_INVITE_SLUG || "meya-osee";
 import couplePhoto from "../assets/couple-photo.jpeg";
 import photo19_29_53 from "../assets/WhatsApp Image 2026-08-08 at 19.29.53.jpeg";
 import photo19_29_54 from "../assets/WhatsApp Image 2026-08-08 at 19.29.54.jpeg";
-import photo19_30_16 from "../assets/WhatsApp Image 2026-08-08 at 19.30.16.jpeg";
+import photo19_30_16 from "../assets/WhatsApp Image 2026-08-08 at 19.31.58.jpeg";
 import photo19_31_57 from "../assets/WhatsApp Image 2026-08-08 at 19.31.57.jpeg";
-import photo19_31_58 from "../assets/WhatsApp Image 2026-08-08 at 19.31.58.jpeg";
+import photo19_31_58 from "../assets/WhatsApp Image 2026-08-08 at 19.30.16.jpeg";
 import photo19_31_58b from "../assets/WhatsApp Image 2026-08-08 at 19.31.58 (1).jpeg";
 
 // Données affichées tant que l'API n'a pas encore répondu (ou si tu préfères

@@ -171,11 +171,6 @@ const inviteUrl =
           <p className="font-script italic font-semibold text-[30px] text-center text-cream mb-3.5">
             {invite.groomName} &amp; {invite.brideName}
           </p>
-          {invite.guestName && (
-            <p className={MUTED + " text-center mb-2"}>
-              Cher/Chère <strong className="text-cream">{invite.guestName}</strong>,
-            </p>
-          )}
           <p className={MUTED}>{invite.welcomeMessage}</p>
           <p className={MUTED + " mt-3.5"}>
             <em>NB : {invite.noteMessage}</em>
