@@ -18,7 +18,7 @@ export const FALLBACK_INVITE = {
   slug: SLUG,
   groomName: "Archange ",
   brideName: "Gladys",
-  coupleLabel: "COUPLE ARCHANGE", // il doit commencer a changez a chaque fois qu'ion crée une invitation doit prendre le nom du couple, ou la personne que nous allons invité 
+  coupleLabel: "le nom du couple inivté", // il doit commencer a changez a chaque fois qu'ion crée une invitation doit prendre le nom du couple, ou la personne que nous allons invité 
   eventTitle: "Vous êtes invité",
   eventType: "Soirée dansante",
   weddingDate: "2026-08-23T20:00:00",

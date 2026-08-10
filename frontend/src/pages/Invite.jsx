@@ -75,7 +75,16 @@ export default function Invite() {
     };
   }, [slug, guestTokenFromUrl]);
 
-  const inviteUrl = typeof window !== "undefined" ? window.location.href : `/${invite.slug}`;
+  // Lien partagé (QR code + bouton "Télécharger le QR Code") : on pointe vers
+// la page d'accueil (étape 1 du flux), pas directement vers "/carte", pour
+// que toute personne qui rescanne/partage ce code passe aussi par l'écran
+// "Vous êtes invité" avant d'arriver sur l'invitation complète.
+const inviteUrl =
+  typeof window !== "undefined"
+    ? `${window.location.origin}${window.location.pathname}#${
+        guestTokenFromUrl ? `/invitation/${guestTokenFromUrl}` : `/${invite.slug}`
+      }`
+    : `/${invite.slug}`;
 
   // Lien invité invalide/supprimé : page d'erreur sobre, dans le même
   // langage visuel que le reste de l'app (aucun nouveau style introduit).

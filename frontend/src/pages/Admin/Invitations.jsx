@@ -128,6 +128,30 @@ function inviteToForm(inv) {
   };
 }
 
+// IMPORTANT : Field est défini EN DEHORS du composant Invitations, au niveau
+// module, pour que sa référence de fonction soit stable entre les renders.
+//
+// Avant, Field était défini À L'INTÉRIEUR de Invitations(). Résultat : à
+// chaque frappe dans un champ, onChange appelait set() -> setForm() ->
+// Invitations se re-rendait -> une NOUVELLE fonction Field était créée à
+// chaque render. React identifie les composants par référence de fonction,
+// donc il voyait "un composant différent" à cet endroit de l'arbre et
+// démontait l'ancien <label>/<input> pour en remonter un nouveau. Un input
+// remonté perd le focus -> il fallait recliquer avec la souris avant de
+// pouvoir taper le caractère suivant.
+//
+// En sortant Field du composant, sa référence ne change plus jamais : React
+// réutilise le même DOM <input> entre les renders et le focus est conservé,
+// donc on peut écrire directement au clavier sans recliquer.
+function Field({ label, children }) {
+  return (
+    <label className="block">
+      <span className={FIELD_LABEL}>{label}</span>
+      {children}
+    </label>
+  );
+}
+
 // Gestion des invitations : lister, créer, modifier, supprimer.
 export default function Invitations() {
   const { authFetch } = useAuth();
@@ -206,13 +230,6 @@ export default function Invitations() {
     setForm((f) => ({ ...f, [field]: value }));
   }
 
-  const Field = ({ label, children }) => (
-    <label className="block">
-      <span className={FIELD_LABEL}>{label}</span>
-      {children}
-    </label>
-  );
-
   return (
     <div className={PAGE}>
       <div className="flex items-start justify-between flex-wrap gap-3 mb-1">
@@ -220,7 +237,7 @@ export default function Invitations() {
           <h1 className={H1}>Invitations</h1>
           <p className={SUBTITLE}>Créez et gérez les invitations envoyées aux invités.</p>
         </div>
-        <button className={BTN_PRIMARY} onClick={openCreate}>
+        <button type="button" className={BTN_PRIMARY} onClick={openCreate}>
           + Nouvelle invitation
         </button>
       </div>
@@ -232,7 +249,11 @@ export default function Invitations() {
           <div className={MODAL_CARD}>
             <div className="flex items-center justify-between mb-5">
               <h2 className={H2 + " mb-0"}>{editing ? "Modifier l'invitation" : "Nouvelle invitation"}</h2>
-              <button className="text-cream-dim hover:text-cream text-xl leading-none" onClick={() => setShowForm(false)}>
+              <button
+                type="button"
+                className="text-cream-dim hover:text-cream text-xl leading-none"
+                onClick={() => setShowForm(false)}
+              >
                 ×
               </button>
             </div>
@@ -404,10 +425,10 @@ export default function Invitations() {
                   <td className={TD}>{inv.receptionLocation || inv.ceremonyLocation || "—"}</td>
                   <td className={TD}>
                     <div className="flex gap-2">
-                      <button className={BTN_GHOST + " " + BTN_SMALL} onClick={() => openEdit(inv)}>
+                      <button type="button" className={BTN_GHOST + " " + BTN_SMALL} onClick={() => openEdit(inv)}>
                         Modifier
                       </button>
-                      <button className={BTN_DANGER + " " + BTN_SMALL} onClick={() => handleDelete(inv._id)}>
+                      <button type="button" className={BTN_DANGER + " " + BTN_SMALL} onClick={() => handleDelete(inv._id)}>
                         Supprimer
                       </button>
                     </div>
