@@ -215,7 +215,7 @@ export default function Home() {
           to={fullInvitePath}
           className="mt-6 relative overflow-hidden inline-flex items-center justify-center gap-2.5 w-full py-4 px-5 rounded-full font-display text-[15px] tracking-[0.02em] font-semibold shadow-[0_10px_26px_rgba(0,0,0,0.25)] transition duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:brightness-[1.06] active:translate-y-0 active:scale-[0.97] bg-gradient-to-b from-gold-strong to-gold-deep text-[#241b06] animate-goldPulse after:content-[''] after:absolute after:top-0 after:-left-[60%] after:w-[45%] after:h-full after:[background:linear-gradient(100deg,transparent_0%,rgba(255,255,255,.55)_50%,transparent_100%)] after:[transform:skewX(-20deg)] after:animate-shineSweep"
         >
-          ⬇️ Télécharger l'invitation
+          ✉️ Ouvrir votre invitation
         </Link>
 
         <div className="bg-white p-4 rounded-2xl w-fit mx-auto mt-6 border-2 border-gold">

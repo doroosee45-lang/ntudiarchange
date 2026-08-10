@@ -101,7 +101,7 @@ export default function AdminLayout() {
           >
             ☰
           </button>
-          <span className="font-display text-sm">Espace d'administration</span>
+          <span className="font-display text-sm">Espace Admin</span>
         </header>
 
         <main className="p-4 sm:p-8">
