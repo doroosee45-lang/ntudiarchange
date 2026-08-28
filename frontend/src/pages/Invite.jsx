@@ -177,7 +177,7 @@ const inviteUrl =
 
           <p className={EYEBROW}>{invite.eventTitle}</p>
           <h1 className="font-display text-2xl md:text-[26px] tracking-[0.06em] text-center text-cream mb-1.5 animate-textReveal">
-            {invite.coupleLabel}
+            {invite.guestName || invite.coupleLabel}
           </h1>
           <div className={HR_GOLD} />
           <p
