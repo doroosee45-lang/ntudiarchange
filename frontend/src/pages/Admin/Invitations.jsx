@@ -287,7 +287,7 @@ export default function Invitations() {
                   <input className={INPUT} value={form.ceremonyTitle} onChange={(e) => set("ceremonyTitle", e.target.value)} />
                 </Field>
                 <Field label="Heure">
-                  <input className={INPUT} value={form.ceremonyTime} onChange={(e) => set("ceremonyTime", e.target.value)} placeholder="20h00" />
+                  <input className={INPUT} value={form.ceremonyTime} onChange={(e) => set("ceremonyTime", e.target.value)} placeholder="19h30" />
                 </Field>
                 <Field label="Lieu">
                   <input className={INPUT} value={form.ceremonyLocation} onChange={(e) => set("ceremonyLocation", e.target.value)} />
@@ -303,7 +303,7 @@ export default function Invitations() {
                   <input className={INPUT} value={form.receptionTitle} onChange={(e) => set("receptionTitle", e.target.value)} />
                 </Field>
                 <Field label="Heure">
-                  <input className={INPUT} value={form.receptionTime} onChange={(e) => set("receptionTime", e.target.value)} placeholder="20h00" />
+                  <input className={INPUT} value={form.receptionTime} onChange={(e) => set("receptionTime", e.target.value)} placeholder="19h30" />
                 </Field>
                 <Field label="Lieu">
                   <input className={INPUT} value={form.receptionLocation} onChange={(e) => set("receptionLocation", e.target.value)} />

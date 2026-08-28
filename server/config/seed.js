@@ -17,7 +17,7 @@ async function seed() {
     coupleLabel: "Mariage Coutumier",
     eventTitle: "Vous êtes invités",
     eventType: "Mariage Coutumier",
-    weddingDate: new Date("2026-09-09T19:30:00"),
+    weddingDate: new Date("2026-09-09T19:30:00+01:00"),
 
     ceremonyTitle: "Mariage Coutumier",
     ceremonyTime: "19h30",
@@ -50,7 +50,7 @@ async function seed() {
       subtitle: "Les tons de la palette sont à l'honneur pour cette belle célébration.",
     },
 
-    rsvpDeadline: new Date("2026-09-05T00:00:00"),
+    rsvpDeadline: new Date("2026-09-05T00:00:00+01:00"),
     contactPhone: "+243 827 066 141",
     contactEmail: "",
     whatsappNumber: "243827066141",

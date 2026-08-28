@@ -26,7 +26,7 @@ export const FALLBACK_INVITE = {
   coupleLabel: "Mariage Coutumier",
   eventTitle: "Vous êtes invités",
   eventType: "Mariage Coutumier",
-  weddingDate: "2026-09-09T19:30:00",
+  weddingDate: "2026-09-09T19:30:00+01:00",
 
   // Cérémonie coutumière
   ceremonyTitle: "Mariage Coutumier",
@@ -66,7 +66,7 @@ export const FALLBACK_INVITE = {
     images: [dressCode1, dressCode2],
   },
 
-  rsvpDeadline: "2026-09-05T00:00:00",
+  rsvpDeadline: "2026-09-05T00:00:00+01:00",
   contactPhone: "+243 827 066 141",
   contactEmail: "",
   whatsappNumber: "243827066141",
