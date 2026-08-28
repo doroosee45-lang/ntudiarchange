@@ -10,49 +10,57 @@ import photo19_30_16 from "../assets/WhatsApp Image 2026-08-08 at 19.31.58.jpeg"
 import photo19_31_57 from "../assets/WhatsApp Image 2026-08-08 at 19.31.57.jpeg";
 import photo19_31_58 from "../assets/WhatsApp Image 2026-08-08 at 19.30.16.jpeg";
 import photo19_31_58b from "../assets/WhatsApp Image 2026-08-08 at 19.31.58 (1).jpeg";
+import dressCodePalette from "../assets/Dress code.jpeg";
 
 // Données affichées tant que l'API n'a pas encore répondu (ou si tu préfères
 // ne pas utiliser MongoDB tout de suite). Remplace directement ces valeurs
 // par les vraies infos si tu veux une version 100% statique.
 export const FALLBACK_INVITE = {
   slug: SLUG,
-  groomName: "Archange ",
-  brideName: "Gladys",
-  coupleLabel: "le nom du couple inivté", // il doit commencer a changez a chaque fois qu'ion crée une invitation doit prendre le nom du couple, ou la personne que nous allons invité 
-  eventTitle: "Vous êtes invité",
-  eventType: "Soirée dansante",
-  weddingDate: "2026-08-23T20:00:00",
+  groomName: "Archange NTUDI",
+  brideName: "Gladys BAMOPALABI",
+  coupleLabel: "Mariage Coutumier",
+  eventTitle: "Vous êtes invités",
+  eventType: "Mariage Coutumier",
+  weddingDate: "2026-09-09T19:30:00",
 
-  // Bénédiction / cérémonie
-  ceremonyTitle: "Bénédiction Nuptiale",
-  ceremonyTime: "20h00",
-  ceremonyLocation: "La Maison de Miséricorde",
-  ceremonyAddress: "02 Av. des Écuries, Réf. Institut Kilimani, Rond point Magasin",
+  // Cérémonie coutumière
+  ceremonyTitle: "Mariage Coutumier",
+  ceremonyTime: "19h30",
+  ceremonyLocation: "Salle de fête Le Jonker",
+  ceremonyAddress: "AV. Kigira N° 1132, Lemba Terminus",
 
-  // Réception / soirée dansante
-  receptionTitle: "Soirée Dansante",
-  receptionTime: "20h00",
-  receptionLocation: "Salle de Fête Exodus; 3ème étage",
-  receptionAddress: "Arrêt station Barre (DGC)",
-  receptionMapUrl: "https://maps.google.com/?q=Salle+de+Fete+Exodus",
+  // Célébration / lieu de réception (même événement, un seul lieu)
+  receptionTitle: "La Célébration",
+  receptionTime: "19h30",
+  receptionLocation: "Salle de fête Le Jonker",
+  receptionAddress: "AV. Kigira N° 1132, Lemba Terminus",
+  receptionMapUrl:
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent("Salle de fête Le Jonker, AV. Kigira N° 1132, Lemba Terminus, Kinshasa"),
 
+  // Texte officiel de l'invitation
   welcomeMessage:
-    "ont l'honneur de vous convier à la soirée dansante célébrant leur mariage, placée sous le signe de l'amour, dans une atmosphère de joie et de grâce. Votre présence illuminera cet événement unique et en rehaussera l'éclat.",
+    "ont la profonde joie de vous faire part de leur mariage coutumier, scellant devant leurs familles et leurs proches l'union de deux histoires, de deux familles et de deux cœurs.",
   noteMessage:
-    "Afin de garantir le parfait déroulement des festivités, la ponctualité de chacun est vivement sollicitée.",
-  welcomeClosing: "Soyez les bienvenus",
+    "Que ce Kaïros soit le commencement d'une nouvelle page, écrite dans l'amour, la fidélité, la paix et la bénédiction.",
+  presenceMessage:
+    "Votre présence, vos pensées et vos bénédictions donneront à ce jour une valeur toute particulière.",
+  welcomeClosing: "Avec amour et reconnaissance,",
+  signatureLine: "Archange & Gladys ❤️",
 
   tableNumber: "45",
-  tableLabel: "BUNDA",
+  tableLabel: "Kaïros",
 
   dressCode: {
-    title: "Prière de respecter le dresscode SVP !",
-    subtitle: "Palette à respecter",
-    colors: ["#D62B23", "#212B45", "#0A0A0A"],
+    title: "Dress Code",
+    subtitle: "Les tons de la palette sont à l'honneur pour cette belle célébration.",
+    image: dressCodePalette,
+    colors: ["#1e120a", "#5c3a20", "#9c4f28", "#c17f42", "#bda887"],
   },
 
-rsvpDeadline: "2026-08-20T00:00:00",
-  contactPhone: "",
+  rsvpDeadline: "2026-09-05T00:00:00",
+  contactPhone: "+243 827 066 141",
   contactEmail: "",
   whatsappNumber: "243827066141",
 

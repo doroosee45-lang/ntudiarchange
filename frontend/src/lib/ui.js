@@ -23,6 +23,12 @@ export const BTN_OUTLINE =
 
 export const BTN_RED = BTN_BASE + " animate-btnReveal bg-[#c0392b] text-white";
 
+export const BTN_MAPS =
+  BTN_BASE +
+  " relative overflow-hidden animate-btnReveal bg-gradient-to-b from-[#c17f42] to-[#8a4a24] text-cream " +
+  "shadow-[0_10px_26px_rgba(0,0,0,0.3),0_0_0_rgba(232,196,104,0)] " +
+  "hover:shadow-[0_10px_26px_rgba(0,0,0,0.3),0_0_20px_rgba(232,196,104,0.4)]";
+
 export const CARD = "relative bg-panel border border-line rounded-card p-7 mb-5 shadow-card backdrop-blur-[2px]";
 export const CARD_CENTER = CARD + " text-center";
 

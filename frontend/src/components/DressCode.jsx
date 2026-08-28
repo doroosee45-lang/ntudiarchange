@@ -17,21 +17,29 @@ export default function DressCode({ dressCode }) {
       >
         <path d="M8 4 4 7l2 3 1-.6V20h10V9.4l1 .6 2-3-4-3-1.5 1.5a2.5 2.5 0 0 1-3 0L8 4Z" />
       </svg>
-      <p className={EYEBROW}>Dress Code</p>
-      <h2 className="font-script italic font-semibold text-2xl text-center text-cream mb-3.5">
-        {dressCode.title}
-      </h2>
-      <p className={SUBHEADING}>{dressCode.subtitle}</p>
-      {colors.length > 0 && (
-        <div className="flex justify-center mt-4.5 mb-1">
-          {colors.map((c, i) => (
-            <div
-              key={i}
-              className="w-[74px] h-[74px] rounded-full border-[3px] border-cream shadow-[0_6px_14px_rgba(0,0,0,0.4)] -ml-4 first:ml-0"
-              style={{ background: c }}
-            />
-          ))}
+      <p className={EYEBROW}>{dressCode.title || "Dress Code"}</p>
+      {dressCode.subtitle && <p className={SUBHEADING}>{dressCode.subtitle}</p>}
+
+      {dressCode.image ? (
+        <div className="max-w-[420px] mx-auto mt-5 animate-photoReveal">
+          <img
+            src={dressCode.image}
+            alt="Palette de couleurs du dress code"
+            className="w-full h-auto rounded-2xl shadow-[0_14px_36px_rgba(0,0,0,0.35)] object-contain"
+          />
         </div>
+      ) : (
+        colors.length > 0 && (
+          <div className="flex justify-center mt-4.5 mb-1">
+            {colors.map((c, i) => (
+              <div
+                key={i}
+                className="w-[74px] h-[74px] rounded-full border-[3px] border-cream shadow-[0_6px_14px_rgba(0,0,0,0.4)] -ml-4 first:ml-0"
+                style={{ background: c }}
+              />
+            ))}
+          </div>
+        )
       )}
     </div>
   );

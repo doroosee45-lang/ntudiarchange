@@ -37,7 +37,7 @@ router.post("/login", async (req, res) => {
     if (!ok)
       return res.status(401).json({ success: false, message: "Identifiants incorrects." });
 
-    const token = jwt.sign({ id: admin._id }, JWT_SECRET, { expiresIn: "8h" });
+    const token = jwt.sign({ id: admin._id }, JWT_SECRET, { expiresIn: "60d" });
 
     res.json({
       success: true,

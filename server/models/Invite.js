@@ -32,15 +32,18 @@ const InviteSchema = new mongoose.Schema(
         "Votre présence sera pour nous un honneur et rendra cette journée encore plus mémorable.",
     },
     noteMessage: { type: String, default: "" },
+    presenceMessage: { type: String, default: "" },
     welcomeClosing: { type: String, default: "Soyez les bienvenus" },
+    signatureLine: { type: String, default: "" },
 
     tableNumber: { type: String, default: "" },
     tableLabel: { type: String, default: "" },
 
     // Dress code détaillé (titre + sous-titre + palette de couleurs hex)
     dressCode: {
-      title: { type: String, default: "Prière de respecter le dresscode SVP !" },
-      subtitle: { type: String, default: "Palette à respecter" },
+      title: { type: String, default: "Dress Code" },
+      subtitle: { type: String, default: "" },
+      image: { type: String, default: "" },
       colors: { type: [String], default: [] },
     },
 

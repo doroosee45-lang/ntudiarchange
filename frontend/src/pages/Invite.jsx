@@ -10,15 +10,8 @@ import Preferences from "../components/Preferences.jsx";
 import GuestBook from "../components/GuestBook.jsx";
 import QrCodeSection from "../components/QrCodeSection.jsx";
 import WeddingAssistant from "../components/WeddingAssistant.jsx";
-import { CARD_CENTER, CARD, EYEBROW, HR_GOLD, INFO_BOX, INFO_LABEL, INFO_VALUE, MUTED, BTN_RED, FRAME, HOME_CARD } from "../lib/ui.js";
-
-const dateLabel = (iso) =>
-  new Date(iso).toLocaleDateString("fr-FR", {
-    weekday: "long",
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  }) + ` • ${new Date(iso).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`;
+import { CARD_CENTER, CARD, EYEBROW, HR_GOLD, INFO_BOX, INFO_LABEL, INFO_VALUE, MUTED, BTN_MAPS, FRAME, HOME_CARD } from "../lib/ui.js";
+import { getDateParts, dateLabel, capitalize } from "../lib/date.js";
 
 export default function Invite() {
   const { slug: slugFromUrl, token: guestTokenFromUrl } = useParams();
@@ -57,6 +50,8 @@ export default function Invite() {
             coverPhotoUrl: prev.coverPhotoUrl,
             coupleCirclePhotoUrl: prev.coupleCirclePhotoUrl,
             galleryPhotos: prev.galleryPhotos,
+            // Idem pour l'image du dress code : l'API ne l'héberge pas forcément.
+            dressCode: data.dressCode ? { ...data.dressCode, image: prev.dressCode.image } : prev.dressCode,
           }));
         }
       })
@@ -86,6 +81,11 @@ const inviteUrl =
       }`
     : `/${invite.slug}`;
 
+  // Toutes les sections liées à la date (héros, section événement, compte à
+  // rebours, assistant vocal) dérivent de invite.weddingDate : une seule
+  // source de vérité, jamais de date en dur dans le JSX.
+  const hero = getDateParts(invite.weddingDate);
+
   // Lien invité invalide/supprimé : page d'erreur sobre, dans le même
   // langage visuel que le reste de l'app (aucun nouveau style introduit).
   if (guestTokenFromUrl && guestLinkInvalid) {
@@ -109,7 +109,13 @@ const inviteUrl =
     <div className="relative min-h-screen bg-stage overflow-x-hidden">
       <div className="absolute inset-0 pointer-events-none bg-dots" />
       <WhatsAppFloatButton phoneNumber={invite.whatsappNumber} />
-      <WeddingAssistant coupleLabel={invite.coupleLabel} />
+      <WeddingAssistant
+        groomName={invite.groomName}
+        brideName={invite.brideName}
+        weddingDate={invite.weddingDate}
+        venue={invite.receptionLocation}
+        address={invite.receptionAddress}
+      />
 
       <div className={FRAME}>
         {/* Section 1 — photo des mariés, stylisée, avec informations sur la photo */}
@@ -130,22 +136,22 @@ const inviteUrl =
             {/* Overlay très léger + informations posées sur la photo */}
             <div className="absolute inset-0 flex flex-col items-center justify-end text-center px-6 pb-8 hero-overlay-gradient">
               <p className="mb-3.5 font-script italic font-semibold text-[2.1rem] leading-[1.1] text-gold-strong tracking-[0.02em] [text-shadow:0_2px_14px_rgba(0,0,0,0.45)] animate-textReveal">
-                Archange &amp; Gladys
+                {invite.groomName} &amp; {invite.brideName}
               </p>
               <div className="w-[120px] h-px bg-gradient-to-r from-transparent via-gold to-transparent opacity-85 mb-4.5 animate-textReveal" />
               <div className="flex items-end gap-7 md:gap-10 animate-textReveal">
                 <div className="flex flex-col items-center leading-[1.15]">
                   <span className="font-display text-[0.72rem] tracking-[0.28em] uppercase text-cream [text-shadow:0_2px_10px_rgba(0,0,0,0.5)]">
-                    Dimanche
+                    {hero.dayName}
                   </span>
                   <span className="font-display font-semibold text-[2.8rem] md:text-[3.4rem] leading-none text-gold-strong [text-shadow:0_2px_18px_rgba(0,0,0,0.5)] my-1">
-                    23
+                    {hero.dayNum}
                   </span>
                   <span className="font-display text-[0.8rem] tracking-[0.3em] uppercase text-cream [text-shadow:0_2px_10px_rgba(0,0,0,0.5)]">
-                    Août
+                    {hero.month}
                   </span>
                   <span className="font-display text-[0.8rem] tracking-[0.3em] uppercase text-cream [text-shadow:0_2px_10px_rgba(0,0,0,0.5)]">
-                    2026
+                    {hero.year}
                   </span>
                 </div>
                 <div className="flex flex-col items-center leading-[1.15]">
@@ -153,7 +159,7 @@ const inviteUrl =
                     À partir de
                   </span>
                   <span className="font-display font-semibold text-[1.3rem] md:text-[1.6rem] tracking-[0.06em] text-gold-strong [text-shadow:0_2px_14px_rgba(0,0,0,0.5)] mt-1.5">
-                    20H00
+                    {hero.time}
                   </span>
                 </div>
               </div>
@@ -161,30 +167,46 @@ const inviteUrl =
           </div>
         </div>
 
-        {/* Section 2 — vous êtes invité + message complet */}
-        <div className={CARD_CENTER}>
-          <p className={EYEBROW}>Vous êtes invités</p>
+        {/* Section 2 — texte officiel de l'invitation, révélé progressivement */}
+        <div className={CARD_CENTER + " relative overflow-hidden"}>
+          {/* Halo doré discret, purement décoratif, derrière le texte */}
+          <div
+            className="pointer-events-none absolute left-1/2 top-10 -translate-x-1/2 w-[220px] h-[220px] rounded-full bg-gold-strong/10 blur-3xl animate-coverGlow"
+            aria-hidden="true"
+          />
+
+          <p className={EYEBROW}>{invite.eventTitle}</p>
           <h1 className="font-display text-2xl md:text-[26px] tracking-[0.06em] text-center text-cream mb-1.5 animate-textReveal">
             {invite.coupleLabel}
           </h1>
           <div className={HR_GOLD} />
-          <p className="font-script italic font-semibold text-[30px] text-center text-cream mb-3.5">
+          <p
+            className="font-script italic font-semibold text-[30px] text-center text-cream mb-5 animate-textReveal"
+            style={{ animationDelay: "0.1s" }}
+          >
             {invite.groomName} &amp; {invite.brideName}
           </p>
-          <p className={MUTED}>{invite.welcomeMessage}</p>
-          <p className={MUTED + " mt-3.5"}>
-            <em>NB : {invite.noteMessage}</em>
-          </p>
 
-          <div className={INFO_BOX + " mt-5 text-left"}>
-            <div className={INFO_LABEL}>{invite.ceremonyTitle}</div>
-            <div className={INFO_VALUE + " text-base"}>{invite.ceremonyLocation}</div>
-            <p className={MUTED + " mt-1"}>
-              {invite.ceremonyAddress} — {invite.ceremonyTime}
+          <div className="relative space-y-5 max-w-[440px] mx-auto text-left sm:text-center">
+            <p className={MUTED + " animate-textReveal"} style={{ animationDelay: "0.2s" }}>
+              {invite.welcomeMessage}
             </p>
+            <p
+              className="font-script italic text-[19px] leading-relaxed text-gold-strong animate-textReveal"
+              style={{ animationDelay: "0.35s" }}
+            >
+              {invite.noteMessage}
+            </p>
+            <p className={MUTED + " animate-textReveal"} style={{ animationDelay: "0.5s" }}>
+              {invite.presenceMessage}
+            </p>
+            <div className="pt-1 animate-textReveal" style={{ animationDelay: "0.65s" }}>
+              <p className={MUTED}>{invite.welcomeClosing}</p>
+              <p className="font-script italic text-2xl text-cream mt-1.5">{invite.signatureLine}</p>
+            </div>
           </div>
 
-          <div className="inline-flex items-center justify-center w-[78px] h-[78px] rounded-full border-2 border-gold bg-[#0e63c9] text-white font-display leading-[1.1] mt-4.5 mx-auto">
+          <div className="inline-flex items-center justify-center w-[78px] h-[78px] rounded-full border-2 border-gold bg-[#0e63c9] text-white font-display leading-[1.1] mt-6 mx-auto">
             <div className="text-center">
               <div className="text-[9px] tracking-[1px]">{invite.tableLabel}</div>
               <div className="text-xl">#{invite.tableNumber}</div>
@@ -192,28 +214,32 @@ const inviteUrl =
           </div>
         </div>
 
-        {/* Section 3 — événement : soirée dansante, lieu, adresse, localisation */}
+        {/* Section 3 — événement + localisation */}
         <div className={CARD}>
-          <p className={EYEBROW}>Événement</p>
-          <h2 className="font-script italic font-semibold text-[28px] text-center text-cream mb-3.5">
+          <p className={EYEBROW}>{invite.ceremonyTitle}</p>
+          <h2 className="font-script italic font-semibold text-[28px] text-center text-cream mb-1.5">
             {invite.receptionTitle}
           </h2>
+          <p className="font-display text-sm tracking-[0.08em] text-cream-dim text-center mb-3.5">
+            {capitalize(hero.dayName)} {hero.dayNum} {capitalize(hero.month)} {hero.year}
+            <br />
+            À partir de {hero.time}
+          </p>
           <div className={HR_GOLD} />
 
-          <div className={INFO_BOX}>
-            <div className={INFO_LABEL}>Lieu de l'événement</div>
+          <div className={INFO_BOX + " text-center"}>
+            <div className={INFO_LABEL}>📍 Lieu</div>
             <div className={INFO_VALUE}>{invite.receptionLocation}</div>
-          </div>
-
-          <div className={INFO_BOX}>
-            <div className={INFO_LABEL}>Adresse</div>
-            <p className="m-0 mb-3">{invite.receptionAddress}</p>
-            <a className={BTN_RED} href={invite.receptionMapUrl} target="_blank" rel="noreferrer">
-              📍 Localisation
+            <p className={MUTED + " mt-2"}>{invite.receptionAddress}</p>
+            <a
+              className={BTN_MAPS + " mt-4"}
+              href={invite.receptionMapUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              📍 Voir la localisation
             </a>
           </div>
-
-          <p className={MUTED + " text-center italic mt-2"}>{invite.welcomeClosing}</p>
         </div>
 
         {/* Section 4 — compte à rebours */}
