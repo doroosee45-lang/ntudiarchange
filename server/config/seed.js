@@ -77,6 +77,21 @@ async function seed() {
   });
 
   console.log("✅ Invitation créée/à jour :", invite.slug);
+
+  // Historiquement, les invités déjà créés (liens personnalisés /invitation/:token)
+  // pointent vers un autre document Invite (créé à la main depuis l'admin, avec
+  // un slug différent). On le garde synchronisé ici pour que toutes les infos
+  // (date, lieu, numéro WhatsApp...) restent identiques sur les deux, quel que
+  // soit le chemin par lequel un invité arrive sur l'invitation.
+  const LEGACY_GUEST_INVITE_ID = "6a79dace02e3f8c41556b417";
+  const { slug: _omitSlug, ...dataWithoutSlug } = data;
+  const legacyInvite = await Invite.findByIdAndUpdate(LEGACY_GUEST_INVITE_ID, dataWithoutSlug, {
+    new: true,
+  });
+  if (legacyInvite) {
+    console.log("✅ Invitation (liens invités existants) synchronisée :", legacyInvite.slug);
+  }
+
   mongoose.connection.close();
 }
 
