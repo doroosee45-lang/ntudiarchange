@@ -57,11 +57,12 @@ export default function WeddingAssistant({ groomName, brideName, weddingDate, ve
   const keepAliveRef = useRef(null);
   const fallbackRef = useRef(null);
   const audioRef = useRef(null);
-  const unlockHandlersRef = useRef(null);
-  // Empêche tout double déclenchement (onend + filet de sécurité qui se
-  // chevauchent, double effet en dev/StrictMode...) : une fois lancée, on ne
-  // relance jamais une seconde instance de la musique pour ce montage.
+  const musicUnlockRef = useRef(null);
+  const speechGestureRef = useRef(null);
+  // Empêche tout double déclenchement (démarrage auto + geste qui se
+  // chevauchent, filet de sécurité, double effet en dev/StrictMode...).
   const musicStartedRef = useRef(false);
+  const speechStartedRef = useRef(false);
 
   // Toujours les dernières valeurs de props, sans jamais redémarrer le cycle
   // voix -> musique déjà en cours si l'invitation se met à jour entre-temps
@@ -72,12 +73,20 @@ export default function WeddingAssistant({ groomName, brideName, weddingDate, ve
     paramsRef.current = { groomName, brideName, weddingDate, venue, address };
   }, [groomName, brideName, weddingDate, venue, address]);
 
-  const clearUnlockListeners = () => {
-    if (!unlockHandlersRef.current) return;
-    const { onGesture } = unlockHandlersRef.current;
+  const clearMusicUnlock = () => {
+    if (!musicUnlockRef.current) return;
+    const onGesture = musicUnlockRef.current;
     document.removeEventListener("click", onGesture);
     document.removeEventListener("touchstart", onGesture);
-    unlockHandlersRef.current = null;
+    musicUnlockRef.current = null;
+  };
+
+  const clearSpeechGesture = () => {
+    if (!speechGestureRef.current) return;
+    const onGesture = speechGestureRef.current;
+    document.removeEventListener("click", onGesture);
+    document.removeEventListener("touchstart", onGesture);
+    speechGestureRef.current = null;
   };
 
   const playMusic = () => {
@@ -102,16 +111,60 @@ export default function WeddingAssistant({ groomName, brideName, weddingDate, ve
         // Autoplay bloqué par le navigateur : on relance discrètement la
         // musique dès le premier geste de l'utilisateur sur la page,
         // sans afficher de lecteur ni de bouton.
-        clearUnlockListeners();
+        clearMusicUnlock();
         const onGesture = () => {
           audioRef.current?.play().catch(() => {});
-          clearUnlockListeners();
+          clearMusicUnlock();
         };
-        unlockHandlersRef.current = { onGesture };
+        musicUnlockRef.current = onGesture;
         document.addEventListener("click", onGesture, { once: true, passive: true });
         document.addEventListener("touchstart", onGesture, { once: true, passive: true });
       });
     }
+  };
+
+  // Lance (ou relance) la synthèse vocale. Appelable aussi bien depuis le
+  // minuteur automatique de 2s que depuis le premier geste de l'invité : de
+  // nombreux navigateurs mobiles (Safari iOS, navigateurs in-app
+  // WhatsApp/Instagram...) bloquent silencieusement `speechSynthesis.speak()`
+  // tant qu'aucune interaction utilisateur n'a eu lieu sur la page. Dans ce
+  // cas, "onstart" ne se déclenche jamais et ce filet de sécurité prend le
+  // relais dès le premier tap, sans jamais afficher le moindre bouton.
+  const speakNow = () => {
+    if (typeof window === "undefined" || !window.speechSynthesis || speechStartedRef.current) return;
+    clearTimeout(timerRef.current);
+    clearSpeechGesture();
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(buildScript(paramsRef.current));
+    const voice = pickVoice();
+    if (voice) utterance.voice = voice;
+    utterance.lang = "fr-FR";
+    utterance.rate = 0.92;
+    utterance.pitch = 1.05;
+    utterance.volume = 1;
+    utterance.onstart = () => {
+      speechStartedRef.current = true;
+      clearSpeechGesture();
+    };
+    // Fin réelle (ou échec) du discours -> musique. Jamais l'inverse.
+    utterance.onend = playMusic;
+    utterance.onerror = playMusic;
+
+    window.speechSynthesis.speak(utterance);
+
+    // Garde la synthèse "éveillée" tant qu'elle parle (bug Chrome ci-dessus).
+    keepAliveRef.current = setInterval(() => {
+      if (!window.speechSynthesis.speaking) {
+        clearInterval(keepAliveRef.current);
+        return;
+      }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, SPEECH_KEEPALIVE_MS);
+
+    // Filet de sécurité si "onend"/"onerror" ne se déclenchent jamais.
+    fallbackRef.current = setTimeout(playMusic, SPEECH_FALLBACK_MS);
   };
 
   useEffect(() => {
@@ -127,44 +180,28 @@ export default function WeddingAssistant({ groomName, brideName, weddingDate, ve
   useEffect(() => {
     if (typeof window === "undefined" || !window.speechSynthesis) return undefined;
 
-    timerRef.current = setTimeout(() => {
-      window.speechSynthesis.cancel();
+    timerRef.current = setTimeout(speakNow, START_DELAY_MS);
 
-      const utterance = new SpeechSynthesisUtterance(buildScript(paramsRef.current));
-      const voice = pickVoice();
-      if (voice) utterance.voice = voice;
-      utterance.lang = "fr-FR";
-      utterance.rate = 0.92;
-      utterance.pitch = 1.05;
-      utterance.volume = 1;
-      // Fin réelle (ou échec) du discours -> musique. Jamais l'inverse.
-      utterance.onend = playMusic;
-      utterance.onerror = playMusic;
-
-      window.speechSynthesis.speak(utterance);
-
-      // Garde la synthèse "éveillée" tant qu'elle parle (bug Chrome ci-dessus).
-      keepAliveRef.current = setInterval(() => {
-        if (!window.speechSynthesis.speaking) {
-          clearInterval(keepAliveRef.current);
-          return;
-        }
-        window.speechSynthesis.pause();
-        window.speechSynthesis.resume();
-      }, SPEECH_KEEPALIVE_MS);
-
-      // Filet de sécurité si "onend"/"onerror" ne se déclenchent jamais.
-      fallbackRef.current = setTimeout(playMusic, SPEECH_FALLBACK_MS);
-    }, START_DELAY_MS);
+    // Filet de sécurité mobile : si l'autoplay de la voix est bloqué, le
+    // premier geste de l'invité sur la page la déclenche immédiatement.
+    const onGesture = () => {
+      clearSpeechGesture();
+      speakNow();
+    };
+    speechGestureRef.current = onGesture;
+    document.addEventListener("click", onGesture, { once: true, passive: true });
+    document.addEventListener("touchstart", onGesture, { once: true, passive: true });
 
     return () => {
       clearTimeout(timerRef.current);
       clearInterval(keepAliveRef.current);
       clearTimeout(fallbackRef.current);
+      clearSpeechGesture();
       window.speechSynthesis.cancel();
       audioRef.current?.pause();
-      clearUnlockListeners();
+      clearMusicUnlock();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;

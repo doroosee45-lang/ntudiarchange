@@ -61,5 +61,7 @@ export const MODAL_OVERLAY = "fixed inset-0 bg-black/75 z-[100] flex items-end j
 export const MODAL_SHEET =
   "w-full max-w-[560px] max-h-[88vh] overflow-y-auto bg-[#0e0d0a] border-t border-line rounded-t-[22px] p-5";
 export const TEXT_INPUT =
-  "w-full bg-white/[0.04] border border-gold/30 rounded-xl p-3.5 text-cream font-body text-[15px] mb-3 " +
+  // text-base (16px) : sous cette taille, Safari iOS zoome automatiquement
+  // la page au focus d'un champ, ce qui casse la mise en page.
+  "w-full bg-white/[0.04] border border-gold/30 rounded-xl p-3.5 text-cream font-body text-base mb-3 " +
   "placeholder:text-cream-dim/60 focus:outline-none focus:border-gold-strong";

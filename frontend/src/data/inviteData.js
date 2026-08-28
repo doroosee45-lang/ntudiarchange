@@ -10,7 +10,7 @@ import photo19_30_16 from "../assets/WhatsApp Image 2026-08-08 at 19.31.58.jpeg"
 import photo19_31_57 from "../assets/WhatsApp Image 2026-08-08 at 19.31.57.jpeg";
 import photo19_31_58 from "../assets/WhatsApp Image 2026-08-08 at 19.30.16.jpeg";
 import photo19_31_58b from "../assets/WhatsApp Image 2026-08-08 at 19.31.58 (1).jpeg";
-import dressCodePalette from "../assets/Dress code.jpeg";
+import dressCodePalette from "../assets/Dress code.png";
 
 // Données affichées tant que l'API n'a pas encore répondu (ou si tu préfères
 // ne pas utiliser MongoDB tout de suite). Remplace directement ces valeurs

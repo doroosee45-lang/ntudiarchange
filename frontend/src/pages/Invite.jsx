@@ -90,7 +90,7 @@ const inviteUrl =
   // langage visuel que le reste de l'app (aucun nouveau style introduit).
   if (guestTokenFromUrl && guestLinkInvalid) {
     return (
-      <div className="relative min-h-screen bg-stage overflow-x-hidden flex items-center justify-center p-8">
+      <div className="relative min-h-screen min-h-dvh bg-stage overflow-x-hidden flex items-center justify-center p-8">
         <div className="absolute inset-0 pointer-events-none bg-dots" />
         <div className={HOME_CARD}>
           <p className={EYEBROW}>Invitation indisponible</p>
@@ -106,7 +106,7 @@ const inviteUrl =
   }
 
   return (
-    <div className="relative min-h-screen bg-stage overflow-x-hidden">
+    <div className="relative min-h-screen min-h-dvh bg-stage overflow-x-hidden">
       <div className="absolute inset-0 pointer-events-none bg-dots" />
       <WhatsAppFloatButton phoneNumber={invite.whatsappNumber} />
       <WeddingAssistant

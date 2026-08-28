@@ -9,6 +9,8 @@
   html,
   body {
     @apply m-0 p-0 bg-ink text-cream font-body antialiased;
+    /* Évite le flash gris par défaut sur tap (Android/iOS) pour un rendu premium */
+    -webkit-tap-highlight-color: transparent;
   }
   img {
     @apply max-w-full block;
@@ -37,6 +39,14 @@
       radial-gradient(ellipse 70% 60% at 85% 70%, rgba(255, 255, 255, 0.04), transparent 55%),
       linear-gradient(180deg, rgba(27, 23, 18, 0.38) 0%, rgba(14, 12, 9, 0.42) 40%, rgba(11, 10, 8, 0.45) 100%),
       url("./assets/background-main.jpg") center / cover no-repeat fixed;
+  }
+  /* `background-attachment: fixed` est peu fiable sur mobile (rendu vide ou
+     très saccadé, notamment sur Safari iOS) : on repasse en `scroll` sur les
+     appareils tactiles, l'effet de parallaxe léger reste réservé au desktop. */
+  @media (hover: none), (pointer: coarse) {
+    .bg-stage {
+      background-attachment: scroll;
+    }
   }
   .bg-stage::before {
     content: "";

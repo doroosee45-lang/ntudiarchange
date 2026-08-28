@@ -7,7 +7,13 @@ export default function WhatsAppFloatButton({ phoneNumber, message = "Bonjour, j
 
   return (
     <a
-      className="fixed top-4.5 left-4.5 z-50 w-12 h-12 rounded-full bg-[#25d366] flex items-center justify-center shadow-[0_6px_20px_rgba(0,0,0,0.4)] border-none animate-floatY transition duration-200 hover:-translate-y-0.5 hover:scale-[1.06] hover:shadow-[0_10px_26px_rgba(37,211,102,0.5)] active:scale-[0.94]"
+      className="fixed z-50 w-12 h-12 rounded-full bg-[#25d366] flex items-center justify-center shadow-[0_6px_20px_rgba(0,0,0,0.4)] border-none animate-floatY transition duration-200 hover:-translate-y-0.5 hover:scale-[1.06] hover:shadow-[0_10px_26px_rgba(37,211,102,0.5)] active:scale-[0.94]"
+      style={{
+        // max(...) garde 18px sur desktop et respecte l'encoche / la zone
+        // sûre sur mobile (iPhone en mode paysage, etc.).
+        top: "max(18px, env(safe-area-inset-top))",
+        left: "max(18px, env(safe-area-inset-left))",
+      }}
       href={href}
       target="_blank"
       rel="noreferrer"
