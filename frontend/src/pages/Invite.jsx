@@ -49,9 +49,10 @@ export default function Invite() {
             // On conserve les photos locales (imports Vite) : l'API ne les sert pas forcément.
             coverPhotoUrl: prev.coverPhotoUrl,
             coupleCirclePhotoUrl: prev.coupleCirclePhotoUrl,
+            countdownPhotoUrl: prev.countdownPhotoUrl,
             galleryPhotos: prev.galleryPhotos,
-            // Idem pour l'image du dress code : l'API ne l'héberge pas forcément.
-            dressCode: data.dressCode ? { ...data.dressCode, image: prev.dressCode.image } : prev.dressCode,
+            // Idem pour les images du dress code : l'API ne les héberge pas forcément.
+            dressCode: data.dressCode ? { ...data.dressCode, images: prev.dressCode.images } : prev.dressCode,
           }));
         }
       })
@@ -208,8 +209,8 @@ const inviteUrl =
 
           <div className="inline-flex items-center justify-center w-[78px] h-[78px] rounded-full border-2 border-gold bg-[#0e63c9] text-white font-display leading-[1.1] mt-6 mx-auto">
             <div className="text-center">
-              <div className="text-[9px] tracking-[1px]">{invite.tableLabel}</div>
-              <div className="text-xl">#{invite.tableNumber}</div>
+              <div className="text-[9px] tracking-[1px]">KAÏROS</div>
+              <div className="text-xl">{invite.kairosTable}</div>
             </div>
           </div>
         </div>
@@ -240,12 +241,16 @@ const inviteUrl =
               📍 Voir la localisation
             </a>
           </div>
+
+          {invite.giftsNote && (
+            <p className={MUTED + " text-center italic mt-4"}>{invite.giftsNote}</p>
+          )}
         </div>
 
         {/* Section 4 — compte à rebours */}
         <Countdown
           targetDate={invite.weddingDate}
-          photoUrl={invite.coverPhotoUrl}
+          photoUrl={invite.countdownPhotoUrl}
           dateLabel={dateLabel(invite.weddingDate)}
         />
 

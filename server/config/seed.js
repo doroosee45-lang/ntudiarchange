@@ -21,16 +21,16 @@ async function seed() {
 
     ceremonyTitle: "Mariage Coutumier",
     ceremonyTime: "19h30",
-    ceremonyLocation: "Salle de fête Le Jonker",
+    ceremonyLocation: "Salle de fête Le JOCKER",
     ceremonyAddress: "AV. Kigira N° 1132, Lemba Terminus",
 
     receptionTitle: "La Célébration",
     receptionTime: "19h30",
-    receptionLocation: "Salle de fête Le Jonker",
+    receptionLocation: "Salle de fête Le JOCKER",
     receptionAddress: "AV. Kigira N° 1132, Lemba Terminus",
     receptionMapUrl:
       "https://www.google.com/maps/search/?api=1&query=" +
-      encodeURIComponent("Salle de fête Le Jonker, AV. Kigira N° 1132, Lemba Terminus, Kinshasa"),
+      encodeURIComponent("Salle de fête Le JOCKER, AV. Kigira N° 1132, Lemba Terminus, Kinshasa"),
 
     welcomeMessage:
       "ont la profonde joie de vous faire part de leur mariage coutumier, scellant devant leurs familles et leurs proches l'union de deux histoires, de deux familles et de deux cœurs.",
@@ -41,13 +41,13 @@ async function seed() {
     welcomeClosing: "Avec amour et reconnaissance,",
     signatureLine: "Archange & Gladys ❤️",
 
-    tableNumber: "45",
-    tableLabel: "Kaïros",
+    kairosTable: 1,
+
+    giftsNote: "NB : Les cadeaux en espèces.",
 
     dressCode: {
       title: "Dress Code",
       subtitle: "Les tons de la palette sont à l'honneur pour cette belle célébration.",
-      colors: ["#1e120a", "#5c3a20", "#9c4f28", "#c17f42", "#bda887"],
     },
 
     rsvpDeadline: new Date("2026-09-05T00:00:00"),

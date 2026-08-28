@@ -2,15 +2,19 @@
 // ex. meyaandoseewedding.com/meya-osee -> slug = "meya-osee"
 export const SLUG = import.meta.env.VITE_INVITE_SLUG || "meya-osee";
 
-// Photos importées depuis src/assets
+// Photos importées depuis src/assets. Chaque photo n'est utilisée qu'une
+// seule fois dans toute l'invitation (héros, cercle d'accueil, compte à
+// rebours, galerie) pour éviter tout doublon à l'affichage.
 import couplePhoto from "../assets/couple-photo.jpeg";
-import photo19_29_53 from "../assets/WhatsApp Image 2026-08-08 at 19.29.53.jpeg";
-import photo19_29_54 from "../assets/WhatsApp Image 2026-08-08 at 19.29.54.jpeg";
-import photo19_30_16 from "../assets/WhatsApp Image 2026-08-08 at 19.31.58.jpeg";
-import photo19_31_57 from "../assets/WhatsApp Image 2026-08-08 at 19.31.57.jpeg";
-import photo19_31_58 from "../assets/WhatsApp Image 2026-08-08 at 19.30.16.jpeg";
-import photo19_31_58b from "../assets/WhatsApp Image 2026-08-08 at 19.31.58 (1).jpeg";
-import dressCodePalette from "../assets/Dress code.png";
+import photo1 from "../assets/photo1.jpeg";
+import photo2 from "../assets/photo2.jpeg";
+import photo3 from "../assets/photo3.jpeg";
+import photo4 from "../assets/photo4.jpeg";
+import photo5 from "../assets/photo5.jpeg";
+import photo6 from "../assets/photo6.jpeg";
+import photo7 from "../assets/photo7.jpeg";
+import dressCode1 from "../assets/dresse code1.jpeg";
+import dressCode2 from "../assets/Dresse code2.jpeg";
 
 // Données affichées tant que l'API n'a pas encore répondu (ou si tu préfères
 // ne pas utiliser MongoDB tout de suite). Remplace directement ces valeurs
@@ -27,17 +31,17 @@ export const FALLBACK_INVITE = {
   // Cérémonie coutumière
   ceremonyTitle: "Mariage Coutumier",
   ceremonyTime: "19h30",
-  ceremonyLocation: "Salle de fête Le Jonker",
+  ceremonyLocation: "Salle de fête Le JOCKER",
   ceremonyAddress: "AV. Kigira N° 1132, Lemba Terminus",
 
   // Célébration / lieu de réception (même événement, un seul lieu)
   receptionTitle: "La Célébration",
   receptionTime: "19h30",
-  receptionLocation: "Salle de fête Le Jonker",
+  receptionLocation: "Salle de fête Le JOCKER",
   receptionAddress: "AV. Kigira N° 1132, Lemba Terminus",
   receptionMapUrl:
     "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent("Salle de fête Le Jonker, AV. Kigira N° 1132, Lemba Terminus, Kinshasa"),
+    encodeURIComponent("Salle de fête Le JOCKER, AV. Kigira N° 1132, Lemba Terminus, Kinshasa"),
 
   // Texte officiel de l'invitation
   welcomeMessage:
@@ -49,14 +53,17 @@ export const FALLBACK_INVITE = {
   welcomeClosing: "Avec amour et reconnaissance,",
   signatureLine: "Archange & Gladys ❤️",
 
-  tableNumber: "45",
-  tableLabel: "Kaïros",
+  // Numéro de table "Kaïros" — donnée dynamique : change uniquement cette
+  // valeur pour une autre invitation (Kaïros 1, Kaïros 2, Kaïros 3...).
+  kairosTable: 1,
+
+  // NB cadeaux, affiché discrètement près des infos pratiques de l'événement.
+  giftsNote: "NB : Les cadeaux en espèces.",
 
   dressCode: {
     title: "Dress Code",
     subtitle: "Les tons de la palette sont à l'honneur pour cette belle célébration.",
-    image: dressCodePalette,
-    colors: ["#1e120a", "#5c3a20", "#9c4f28", "#c17f42", "#bda887"],
+    images: [dressCode1, dressCode2],
   },
 
   rsvpDeadline: "2026-09-05T00:00:00",
@@ -64,16 +71,10 @@ export const FALLBACK_INVITE = {
   contactEmail: "",
   whatsappNumber: "243827066141",
 
-  coverPhotoUrl: photo19_31_58,
+  coverPhotoUrl: photo3,
   coupleCirclePhotoUrl: couplePhoto,
-  galleryPhotos: [
-    photo19_29_53,
-    photo19_29_54,
-    photo19_30_16,
-    photo19_31_57,
-    photo19_31_58b,
-    photo19_31_58,
-  ],
+  countdownPhotoUrl: photo2,
+  galleryPhotos: [photo1, photo4, photo5, photo6, photo7],
   guestOf: "Monsieur & Madame",
 
   drinks: {

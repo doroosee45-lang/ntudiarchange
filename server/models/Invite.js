@@ -36,15 +36,18 @@ const InviteSchema = new mongoose.Schema(
     welcomeClosing: { type: String, default: "Soyez les bienvenus" },
     signatureLine: { type: String, default: "" },
 
-    tableNumber: { type: String, default: "" },
-    tableLabel: { type: String, default: "" },
+    // Numéro de table "Kaïros" — dynamique et modifiable par invitation
+    // (ex: 1, 2, 3...). Affiché "Kaïros {kairosTable}".
+    kairosTable: { type: Number, default: 1 },
 
-    // Dress code détaillé (titre + sous-titre + palette de couleurs hex)
+    // Mention discrète à propos des cadeaux (ex: "NB : Les cadeaux en espèces.")
+    giftsNote: { type: String, default: "" },
+
+    // Dress code : titre + sous-titre + carousel d'images (illustrant la palette)
     dressCode: {
       title: { type: String, default: "Dress Code" },
       subtitle: { type: String, default: "" },
-      image: { type: String, default: "" },
-      colors: { type: [String], default: [] },
+      images: { type: [String], default: [] },
     },
 
     rsvpDeadline: { type: Date },
@@ -54,6 +57,7 @@ const InviteSchema = new mongoose.Schema(
 
     coverPhotoUrl: { type: String, default: "" }, // photo hero (grand format)
     coupleCirclePhotoUrl: { type: String, default: "" }, // photo ronde page d'accueil
+    countdownPhotoUrl: { type: String, default: "" }, // photo dans le compte à rebours
     galleryPhotos: { type: [String], default: [] },
     guestOf: { type: String, default: "Couple Archange" }, // libellé "invité de"
 

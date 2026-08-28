@@ -32,12 +32,11 @@ const EMPTY = {
   noteMessage: "",
   welcomeClosing: "Soyez les bienvenus",
 
-  tableNumber: "",
-  tableLabel: "",
+  kairosTable: 1,
+  giftsNote: "",
 
-  dressCodeTitle: "Prière de respecter le dresscode SVP !",
-  dressCodeSubtitle: "Palette à respecter",
-  dressCodeColors: "#D62B23, #212B45, #0A0A0A",
+  dressCodeTitle: "Dress Code",
+  dressCodeSubtitle: "",
 
   rsvpDeadline: "",
   contactPhone: "",
@@ -79,16 +78,12 @@ function formToPayload(form) {
     noteMessage: form.noteMessage,
     welcomeClosing: form.welcomeClosing,
 
-    tableNumber: form.tableNumber,
-    tableLabel: form.tableLabel,
+    kairosTable: Number(form.kairosTable) || 1,
+    giftsNote: form.giftsNote,
 
     dressCode: {
       title: form.dressCodeTitle,
       subtitle: form.dressCodeSubtitle,
-      colors: String(form.dressCodeColors || "")
-        .split(",")
-        .map((c) => c.trim())
-        .filter(Boolean),
     },
 
     rsvpDeadline: form.rsvpDeadline || undefined,
@@ -121,7 +116,7 @@ function inviteToForm(inv) {
     rsvpDeadline: inv.rsvpDeadline ? inv.rsvpDeadline.slice(0, 16) : "",
     dressCodeTitle: inv.dressCode?.title || EMPTY.dressCodeTitle,
     dressCodeSubtitle: inv.dressCode?.subtitle || EMPTY.dressCodeSubtitle,
-    dressCodeColors: (inv.dressCode?.colors || []).join(", "),
+    kairosTable: inv.kairosTable ?? 1,
     drinksMaxTotal: inv.drinks?.maxTotal ?? 2,
     drinksAlcoholic: (inv.drinks?.alcoholic || []).join(", "),
     drinksNonAlcoholic: (inv.drinks?.nonAlcoholic || []).join(", "),
@@ -319,11 +314,15 @@ export default function Invitations() {
                 <Field label="Lien Google Maps">
                   <input className={INPUT} value={form.receptionMapUrl} onChange={(e) => set("receptionMapUrl", e.target.value)} placeholder="https://maps.google.com/?q=..." />
                 </Field>
-                <Field label="Table / N°">
-                  <div className="flex gap-2">
-                    <input className={INPUT} value={form.tableLabel} onChange={(e) => set("tableLabel", e.target.value)} placeholder="BUNDA" />
-                    <input className={INPUT} value={form.tableNumber} onChange={(e) => set("tableNumber", e.target.value)} placeholder="45" />
-                  </div>
+                <Field label="Kaïros (n° de table)">
+                  <input
+                    className={INPUT}
+                    type="number"
+                    min="1"
+                    value={form.kairosTable}
+                    onChange={(e) => set("kairosTable", e.target.value)}
+                    placeholder="1"
+                  />
                 </Field>
               </div>
 
@@ -338,6 +337,9 @@ export default function Invitations() {
                 <Field label="Formule de clôture">
                   <input className={INPUT} value={form.welcomeClosing} onChange={(e) => set("welcomeClosing", e.target.value)} />
                 </Field>
+                <Field label="Mention cadeaux">
+                  <input className={INPUT} value={form.giftsNote} onChange={(e) => set("giftsNote", e.target.value)} placeholder="NB : Les cadeaux en espèces." />
+                </Field>
               </div>
 
               <h3 className="font-display text-sm text-gold-strong uppercase tracking-wide pt-2">Dress code</h3>
@@ -347,9 +349,6 @@ export default function Invitations() {
                 </Field>
                 <Field label="Sous-titre">
                   <input className={INPUT} value={form.dressCodeSubtitle} onChange={(e) => set("dressCodeSubtitle", e.target.value)} />
-                </Field>
-                <Field label="Couleurs (hex, séparées par des virgules)">
-                  <input className={INPUT} value={form.dressCodeColors} onChange={(e) => set("dressCodeColors", e.target.value)} placeholder="#D62B23, #212B45, #0A0A0A" />
                 </Field>
               </div>
 
